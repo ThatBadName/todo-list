@@ -27,8 +27,8 @@ export default function Home() {
   function editItem(id, newName) {
     let newItems = [];
     for (let item of items) {
-      if (item.id === id) item.name = newName;
-      newItems.push(item);
+      if (item.id === id) item.name = newName.trim();
+      if (item.name) newItems.push(item);
     }
     setItems(newItems);
   }
