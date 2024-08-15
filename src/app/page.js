@@ -8,6 +8,7 @@ export default function Home() {
   const [items, setItems] = useState([]);
   const [input, setInput] = useState("");
   const [editing, setEditing] = useState(null);
+  const [editValue, setEdit] = useState("")
 
   function updateInput(value) {
     setInput(value);
@@ -24,13 +25,17 @@ export default function Home() {
     setInput("");
   }
 
-  function editItem(id, newName) {
+  function editItem(id) {
     let newItems = [];
     for (let item of items) {
-      if (item.id === id) item.name = newName.trim();
+      if (item.id === id) item.name = editValue.trim();
       if (item.name) newItems.push(item);
     }
     setItems(newItems);
+  }
+
+  function setEditValue(newValue) {
+    setEdit(newValue)
   }
 
   function toggleItemState(id) {
@@ -97,7 +102,7 @@ export default function Home() {
                         </h2>{" "}
                         <div className="flex">
                           {" "}
-                          <button onClick={() => setEditing(i.id)}>
+                          <button onClick={() => {setEditing(i.id); setEditValue(i.name)}}>
                             <LuFileEdit className="text-gray-500 hover:text-gray-200 transition-all text-2xl" />
                           </button>
                           <button onClick={() => removeItem(i.id)}>
@@ -107,7 +112,7 @@ export default function Home() {
                       </>
                     ) : (
                       <>
-                        <form className="flex w-full" onSubmit={() => setEditing(null)}>
+                        <form className="flex w-full" onSubmit={() => {setEditing(null); setEditValue("")}}>
                           <input
                             type="checkbox"
                             id="editingValue"
@@ -120,11 +125,11 @@ export default function Home() {
                           <input
                             type="text"
                             placeholder={i.name}
-                            value={i.name}
+                            value={editValue}
                             autoFocus
                             className="flex-grow focus:outline-none bg-black"
                             onChange={e => editItem(i.id, e.target.value)}></input>
-                          <button type="submit" onClick={() => setEditing(null)}>
+                          <button type="submit" onClick={() => {setEditing(null); setEditValue("")}}>
                             <FaRegCircleCheck className="text-gray-500 hover:text-green-600 transition-all ml-1 text-2xl" />
                           </button>
                         </form>
