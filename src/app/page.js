@@ -8,7 +8,7 @@ export default function Home() {
   const [items, setItems] = useState([]);
   const [input, setInput] = useState("");
   const [editing, setEditing] = useState(null);
-  const [editValue, setEdit] = useState("")
+  const [editValue, setEdit] = useState("");
 
   function updateInput(value) {
     setInput(value);
@@ -35,7 +35,7 @@ export default function Home() {
   }
 
   function setEditValue(newValue) {
-    setEdit(newValue)
+    setEdit(newValue);
   }
 
   function toggleItemState(id) {
@@ -97,12 +97,21 @@ export default function Home() {
                             i.done ? "border-green-500 bg-green-500" : "border-orange-500"
                           }`}
                         />
-                        <h2 onClick={() => setEditing(i.id)} className={`flex-grow ${i.done ? "line-through opacity-70" : ""}`}>
+                        <h2
+                          onClick={() => {
+                            setEditing(i.id);
+                            setEditValue(i.name);
+                          }}
+                          className={`flex-grow ${i.done ? "line-through opacity-70" : ""}`}>
                           {i.name}
                         </h2>{" "}
                         <div className="flex">
                           {" "}
-                          <button onClick={() => {setEditing(i.id); setEditValue(i.name)}}>
+                          <button
+                            onClick={() => {
+                              setEditing(i.id);
+                              setEditValue(i.name);
+                            }}>
                             <LuFileEdit className="text-gray-500 hover:text-gray-200 transition-all text-2xl" />
                           </button>
                           <button onClick={() => removeItem(i.id)}>
@@ -112,7 +121,12 @@ export default function Home() {
                       </>
                     ) : (
                       <>
-                        <form className="flex w-full" onSubmit={() => {setEditing(null); setEditValue("")}}>
+                        <form
+                          className="flex w-full"
+                          onSubmit={() => {
+                            setEditing(null);
+                            setEditValue("");
+                          }}>
                           <input
                             type="checkbox"
                             id="editingValue"
@@ -128,8 +142,14 @@ export default function Home() {
                             value={editValue}
                             autoFocus
                             className="flex-grow focus:outline-none bg-black"
-                            onChange={e => editItem(i.id, e.target.value)}></input>
-                          <button type="submit" onClick={() => {setEditing(null); setEditValue("")}}>
+                            onChange={e => setEditValue(e.target.value)}></input>
+                          <button
+                            type="submit"
+                            onClick={() => {
+                              editItem(i.id);
+                              setEditing(null);
+                              setEditValue("");
+                            }}>
                             <FaRegCircleCheck className="text-gray-500 hover:text-green-600 transition-all ml-1 text-2xl" />
                           </button>
                         </form>
